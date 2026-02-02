@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🇩🇪 Profi Deutsch Quiz A2 → B1 | WFA Akademie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wfa-black: #000000;
+      --wfa-red: #DC0000;
+      --wfa-gold: #FFD700;
+      --wfa-dark: #1a1a1a;
+      --wfa-gray: #2a2a2a;
+      --wfa-light-gray: #3a3a3a;
+      --wfa-text: #ffffff;
+      --wfa-text-secondary: #cccccc;
+      --wfa-correct: #4CAF50;
+      --wfa-wrong: #F44336;
+      --wfa-border-radius: 16px;
+      --wfa-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --wfa-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.35);
+      --wfa-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --wfa-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --wfa-elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      --wfa-elevation-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--wfa-dark), #111111, #0a0a0a);
+      color: var(--wfa-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,215,0,0.03) 0%, rgba(220,0,0,0.03) 30%, rgba(0,0,0,0.4) 100%);
+      z-index: -1;
+    }
+    
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--wfa-gray);
+      border-radius: var(--wfa-border-radius);
+      box-shadow: var(--wfa-elevation-3);
+      overflow: hidden;
+      position: relative;
+      transform: translateY(0);
+      transition: var(--wfa-transition);
+    }
+    
+    .app-header {
+      background: linear-gradient(120deg, var(--wfa-black), var(--wfa-dark));
+      padding: 16px 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .logo-letters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .logo-letter {
+      font-size: 48px;
+      font-weight: 800;
+      font-family: 'Google Sans', sans-serif;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    .logo-letter.w { color: var(--wfa-black); animation-delay: 0s; }
+    .logo-letter.f { color: var(--wfa-red); text-shadow: 0 0 10px rgba(220, 0, 0, 0.6); animation-delay: 0.2s; }
+    .logo-letter.a { color: var(--wfa-gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.7); animation-delay: 0.4s; }
+    
+    .logo-subtitle {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--wfa-red);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .logo-subtitle::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--wfa-red), var(--wfa-gold), var(--wfa-black));
+      border-radius: 1px;
+    }
+    
+    .screen {
+      display: none;
+      padding: 24px;
+      flex-grow: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      animation: fadeIn 0.4s ease-out;
+    }
+    
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .screen-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      text-align: center;
+      color: var(--wfa-gold);
+      position: relative;
+      padding-bottom: 12px;
+    }
+    
+    .screen-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--wfa-black), var(--wfa-red), var(--wfa-gold), var(--wfa-black));
+      border-radius: 3px;
+    }
+    
+    /* Registration Screen */
+    .registration-screen {
+      text-align: center;
+      padding: 32px 24px;
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .registration-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(45deg, var(--wfa-red), var(--wfa-gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      animation: titleGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes titleGlow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+    }
+    
+    .registration-subtitle {
+      font-size: 18px;
+      color: var(--wfa-text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    
+    .name-input-container {
+      margin: 24px 0;
+    }
+    
+    .name-input-label {
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--wfa-gold);
+    }
+    
+    .name-input {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid var(--wfa-red);
+      background: rgba(30, 30, 30, 0.8);
+      color: var(--wfa-text);
+      font-size: 18px;
+      font-family: 'Google Sans', sans-serif;
+      transition: var(--wfa-transition);
+    }
+    
+    .name-input:focus {
+      outline: none;
+      border-color: var(--wfa-gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+    }
+    
+    .start-quiz-btn {
+      background: linear-gradient(120deg, var(--wfa-red), #b70000, var(--wfa-red));
+      color: var(--wfa-gold);
+      border: none;
+      padding: 18px 48px;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 50px;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: var(--wfa-transition);
+      box-shadow: 0 6px 20px rgba(220, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Google Sans', sans-serif;
+      align-self: center;
+      min-width: 220px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .start-quiz-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .start-quiz-btn:hover::before {
+      left: 100%;
+    }
+    
+    .start-quiz-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(220, 0, 0, 0.7);
+      color: #ffffff;
+    }
+    
+    .start-quiz-btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+    
+    /* Quiz Screen */
+    .progress-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      height: 8px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+      border: 1px solid var(--wfa-red);
+      position: relative;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--wfa-red), var(--wfa-gold));
+      border-radius: 12px;
+      width: 0%;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .progress-bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.2) 100%);
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .progress-text {
+      font-size: 16px;
+      color: var(--wfa-gold);
+      font-weight: 500;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .level-badge {
+      background: linear-gradient(120deg, var(--wfa-black), var(--wfa-dark));
+      border: 2px solid var(--wfa-red);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--wfa-gold);
+      display: inline-block;
+      margin: 12px 0 20px;
+      box-shadow: 0 2px 8px rgba(220, 0, 0, 0.4);
+      align-self: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .level-badge::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+      transform: rotate(45deg);
+      animation: badgeShine 3s infinite;
+    }
+    
+    @keyframes badgeShine {
+      0% { transform: rotate(45deg) translateX(-100%); }
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+    
+    .question-container {
+      background: rgba(40, 40, 40, 0.7);
+      border-radius: var(--wfa-border-radius);
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: var(--wfa-elevation-2);
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.4;
+      position: relative;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      animation: questionSlide 0.4s ease-out;
+    }
+    
+    @keyframes questionSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .question-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--wfa-black), var(--wfa-red), var(--wfa-gold));
+      border-radius: 4px 4px 0 0;
+    }
+    
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 24px 0;
+    }
+    
+    .option-btn {
+      background: rgba(50, 50, 50, 0.8);
+      border: 2px solid var(--wfa-red);
+      border-radius: 16px;
+      padding: 16px 20px;
+      color: var(--wfa-text);
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--wfa-transition);
+      text-align: left;
+      box-shadow: var(--wfa-elevation-1);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Google Sans', sans-serif;
+      min-height: 64px;
+    }
+    
+    .option-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(220, 0, 0, 0.3), transparent);
+      transition: left 0.4s ease;
+    }
+    
+    .option-btn:hover::before {
+      left: 100%;
+    }
+    
+    .option-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--wfa-shadow-hover);
+      color: var(--wfa-gold);
+      border-color: var(--wfa-gold);
+    }
+    
+    .option-btn.correct {
+      background: linear-gradient(120deg, var(--wfa-correct), #388e3c);
+      border-color: #2e7d32;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+      transform: scale(1.03);
+      animation: correctPulse 0.5s ease-out;
+    }
+    
+    @keyframes correctPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1.03); }
+    }
+    
+    .option-btn.wrong {
+      background: linear-gradient(120deg, var(--wfa-wrong), #d32f2f);
+      border-color: #c62828;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(244, 67, 54, 0.6);
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    
+    .option-btn:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    .option-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--wfa-red);
+      color: white;
+      border-radius: 50%;
+      margin-right: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: var(--wfa-transition);
+    }
+    
+    .option-btn:hover .option-number {
+      background: var(--wfa-gold);
+      transform: scale(1.1);
+    }
+    
+    .option-btn.correct .option-number {
+      background: white;
+      color: var(--wfa-correct);
+    }
+    
+    .option-btn.wrong .option-number {
+      background: white;
+      color: var(--wfa-wrong);
+    }
+    
+    .quiz-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+      gap: 16px;
+    }
+    
+    .next-btn, .restart-btn {
+      background: linear-gradient(120deg, var(--wfa-red), #b70000, var(--wfa-red));
+      color: var(--wfa-gold);
+      border: none;
+      padding: 14px 36px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--wfa-transition);
+      box-shadow: 0 6px 20px rgba(220, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Google Sans', sans-serif;
+      min-width: 180px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .next-btn::before, .restart-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .next-btn:hover::before, .restart-btn:hover::before {
+      left: 100%;
+    }
+    
+    .next-btn:hover, .restart-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(220, 0, 0, 0.7);
+      color: #ffffff;
+    }
+    
+    .next-btn:active, .restart-btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+    
+    .restart-btn {
+      background: linear-gradient(120deg, var(--wfa-gold), #ccaa00, var(--wfa-gold));
+      color: var(--wfa-black);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    }
+    
+    .restart-btn:hover {
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    }
+    
+    .result-container {
+      margin: 20px 0;
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: 700;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: var(--wfa-transition);
+    }
+    
+    .result-container.show {
+      opacity: 1;
+      transform: translateY(0);
+      animation: resultPop 0.4s ease-out;
+    }
+    
+    @keyframes resultPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .result-container.correct {
+      background: rgba(76, 175, 80, 0.15);
+      color: #4CAF50;
+      border: 1px solid rgba(76, 175, 80, 0.4);
+      box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .result-container.wrong {
+      background: rgba(244, 67, 54, 0.15);
+      color: #F44336;
+      border: 1px solid rgba(244, 67, 54, 0.4);
+      box-shadow: 0 0 15px rgba(244, 67, 54, 0.3);
+    }
+    
+    /* Results Screen */
+    .results-screen {
+      text-align: center;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    .congrats-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 16px 0 24px;
+      background: linear-gradient(45deg, var(--wfa-gold), var(--wfa-red), var(--wfa-gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      line-height: 1.3;
+      animation: titleGlow 2s ease-in-out infinite;
+    }
+    
+    .student-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--wfa-gold);
+      margin: 8px 0 24px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      animation: nameFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes nameFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .score-display {
+      font-size: 64px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--wfa-gold), var(--wfa-red));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 16px 0 24px;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      position: relative;
+      line-height: 1;
+      animation: scoreGlow 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes scoreGlow {
+      0%, 100% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+      50% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
+    }
+    
+    .score-display::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--wfa-black), var(--wfa-red), var(--wfa-gold), var(--wfa-black));
+      border-radius: 2px;
+    }
+    
+    .badge-container {
+      margin: 24px 0;
+      padding: 20px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(30,30,30,0.9), rgba(20,20,20,0.95));
+      box-shadow: var(--wfa-elevation-3);
+      min-width: 280px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--wfa-red);
+      animation: badgeFloat 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgeFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .badge-container::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+      z-index: -1;
+    }
+    
+    .badge-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--wfa-gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .badge-name {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--wfa-gold), var(--wfa-red));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      letter-spacing: -1px;
+      margin: 4px 0;
+      animation: badgeGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgeGlow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+      50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    }
+    
+    .encouragement-text {
+      font-size: 18px;
+      margin: 24px 0;
+      line-height: 1.5;
+      color: var(--wfa-text-secondary);
+      max-width: 90%;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      border-radius: 50%;
+      animation: confetti-fall 5s ease-in-out forwards;
+      z-index: 100;
+    }
+    
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Visual Effects */
+    .visual-effect {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      pointer-events: none;
+      z-index: 2000;
+      font-size: 80px;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+    }
+    
+    .visual-effect.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.8);
+    }
+    
+    .visual-effect.correct {
+      color: var(--wfa-correct);
+      text-shadow: 0 0 25px rgba(76, 175, 80, 0.8);
+      filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.7));
+    }
+    
+    .visual-effect.wrong {
+      color: var(--wfa-wrong);
+      text-shadow: 0 0 25px rgba(244, 67, 54, 0.8);
+      filter: drop-shadow(0 0 20px rgba(244, 67, 54, 0.7));
+    }
+    
+    /* Responsive Design */
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 800px;
+        min-height: 650px;
+        margin: 20px;
+        box-shadow: var(--wfa-elevation-3);
+      }
+      
+      .screen {
+        padding: 32px 48px;
+      }
+      
+      .screen-title {
+        font-size: 36px;
+      }
+      
+      .question-container {
+        font-size: 26px;
+        padding: 32px;
+        min-height: 120px;
+      }
+      
+      .option-btn {
+        font-size: 20px;
+        padding: 18px 24px;
+        min-height: 72px;
+      }
+      
+      .option-number {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      
+      .next-btn, .restart-btn {
+        padding: 16px 48px;
+        font-size: 20px;
+        min-width: 220px;
+      }
+      
+      .registration-title {
+        font-size: 40px;
+      }
+      
+      .congrats-title {
+        font-size: 42px;
+      }
+      
+      .score-display {
+        font-size: 80px;
+      }
+      
+      .badge-name {
+        font-size: 48px;
+      }
+      
+      .visual-effect {
+        font-size: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .app-container {
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh !important;
+      }
+      
+      .screen {
+        padding: 20px 16px;
+      }
+      
+      .screen-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      
+      .question-container {
+        font-size: 20px;
+        padding: 20px;
+      }
+      
+      .option-btn {
+        font-size: 17px;
+        padding: 14px 16px;
+        min-height: 60px;
+      }
+      
+      .option-number {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      
+      .next-btn, .restart-btn {
+        padding: 12px 32px;
+        font-size: 17px;
+        min-width: 160px;
+        margin: 0 8px;
+      }
+      
+      .quiz-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .level-badge {
+        font-size: 16px;
+        padding: 4px 16px;
+      }
+      
+      .progress-text {
+        font-size: 15px;
+      }
+      
+      .logo-letter {
+        font-size: 40px;
+      }
+      
+      .logo-subtitle {
+        font-size: 18px;
+      }
+      
+      .name-input {
+        padding: 14px 16px;
+        font-size: 17px;
+      }
+      
+      .start-quiz-btn {
+        padding: 16px 40px;
+        font-size: 18px;
+        min-width: 200px;
+      }
+      
+      .congrats-title {
+        font-size: 28px;
+      }
+      
+      .student-name {
+        font-size: 24px;
+      }
+      
+      .score-display {
+        font-size: 56px;
+      }
+      
+      .badge-name {
+        font-size: 32px;
+      }
+      
+      .encouragement-text {
+        font-size: 16px;
+        max-width: 100%;
+      }
+      
+      .visual-effect {
+        font-size: 70px;
+      }
+    }
+    
+    /* Loading indicator */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      margin: 20px 0;
+    }
+    
+    .loading-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--wfa-gold);
+      border-radius: 50%;
+      margin: 0 4px;
+      animation: loading 1.4s infinite both;
+    }
+    
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+    .loading-dot:nth-child(3) { animation-delay: 0s; }
+    
+    @keyframes loading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Visual Effects -->
+    <div id="visualEffect" class="visual-effect"></div>
+    
+    <!-- Registration Screen -->
+    <div class="screen registration-screen active" id="registrationScreen">
+      <div class="app-header">
+        <div class="logo-container">
+          <div class="logo-letters">
+            <div class="logo-letter w">W</div>
+            <div class="logo-letter f">F</div>
+            <div class="logo-letter a">A</div>
+          </div>
+          <div class="logo-subtitle">Akademie</div>
+        </div>
+      </div>
+      
+      <h1 class="registration-title">✨ Willkommen zum Profi Deutsch Quiz ✨</h1>
+      <p class="registration-subtitle">Teste dein Wissen der deutschen Sprache mit unserem interaktiven Quiz!<br>50 sorgfältig ausgewählte Fragen für die Niveaus A2 und B1.</p>
+      
+      <div class="name-input-container">
+        <label class="name-input-label" for="studentName">Dein Name:</label>
+        <input type="text" id="studentName" class="name-input" placeholder="Gib deinen Namen ein..." maxlength="30" autocomplete="off">
+      </div>
+      
+      <button class="start-quiz-btn" id="startQuizBtn">Quiz Starten ▶</button>
+      
+      <div class="loading" id="audioLoading" style="display: none;">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+      <p id="audioStatus" style="color: var(--wfa-gold); font-size: 14px; margin-top: 10px; display: none;">Audiodateien werden geladen...</p>
+    </div>
+    
+    <!-- Quiz Screen -->
+    <div class="screen quiz-screen" id="quizScreen">
+      <div class="app-header">
+        <div class="logo-container">
+          <div class="logo-letters">
+            <div class="logo-letter w">W</div>
+            <div class="logo-letter f">F</div>
+            <div class="logo-letter a">A</div>
+          </div>
+          <div class="logo-subtitle">Akademie</div>
+        </div>
+      </div>
+      
+      <h2 class="screen-title">🇩🇪 Deutsch Meister Quiz</h2>
+      
+      <div class="progress-text">Frage <span id="currentQuestion">1</span> von <span id="totalQuestions">50</span></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      
+      <div class="level-badge" id="levelBadge">Stufe: A2</div>
+      
+      <div class="question-container" id="questionContainer">
+        Was bringt verletzte Menschen ins Krankenhaus? 🏥
+      </div>
+      
+      <div class="options-container" id="optionsContainer">
+        <!-- Options will be inserted here by JavaScript -->
+      </div>
+      
+      <div class="result-container" id="resultContainer"></div>
+      
+      <div class="quiz-actions">
+        <button class="next-btn" id="nextBtn" style="display: none;">Nächste Frage</button>
+      </div>
+    </div>
+    
+    <!-- Results Screen -->
+    <div class="screen results-screen" id="resultsScreen">
+      <div class="app-header">
+        <div class="logo-container">
+          <div class="logo-letters">
+            <div class="logo-letter w">W</div>
+            <div class="logo-letter f">F</div>
+            <div class="logo-letter a">A</div>
+          </div>
+          <div class="logo-subtitle">Akademie</div>
+        </div>
+      </div>
+      
+      <h2 class="screen-title">🎉 Quiz Abgeschlossen! 🎉</h2>
+      
+      <div class="congrats-title">Herzlichen Glückwunsch!</div>
+      <div class="student-name" id="resultStudentName">Max Mustermann</div>
+      
+      <div class="score-display" id="finalScore">45/50</div>
+      
+      <div class="badge-container" id="badgeContainer">
+        <div class="badge-title">Verdienter Titel</div>
+        <div class="badge-name" id="badgeName">GOLD-MEISTER</div>
+      </div>
+      
+      <p class="encouragement-text" id="encouragementText">
+        Absolut beeindruckend! Du beherrschst Deutsch auf einem fortgeschrittenen Niveau. Weiter so!
+      </p>
+      
+      <button class="restart-btn" id="restartBtn">Quiz Neustarten</button>
+    </div>
+  </div>
+
+  <script>
+    // Audio context for Web Audio API (to bypass autoplay restrictions)
+    let audioContext;
+    let isAudioInitialized = false;
+    
+    // Audio elements - will be created after user interaction
+    let audioElements = {};
+    
+    // Initialize audio after user interaction
+    function initAudio() {
+      if (isAudioInitialized) return;
+      
+      // Show loading indicator
+      document.getElementById('audioLoading').style.display = 'flex';
+      document.getElementById('audioStatus').style.display = 'block';
+      
+      // Create audio context
+      try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioContext();
+      } catch (e) {
+        console.log("Web Audio API not supported", e);
+      }
+      
+      // Create audio elements
+      const audioFiles = {
+        correct: 'https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3',
+        wrong: 'https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3',
+        ambulance: 'https://assets.mixkit.co/sfx/preview/mixkit-ambulance-siren-1026.mp3',
+        cash: 'https://assets.mixkit.co/sfx/preview/mixkit-cash-register-1959.mp3',
+        cat: 'https://assets.mixkit.co/sfx/preview/mixkit-cat-meow-217.mp3',
+        rain: 'https://assets.mixkit.co/sfx/preview/mixkit-rain-126.mp3',
+        clock: 'https://assets.mixkit.co/sfx/preview/mixkit-alarm-clock-206.mp3',
+        globe: 'https://assets.mixkit.co/sfx/preview/mixkit-whoosh-1729.mp3'
+      };
+      
+      // Preload all audio files
+      let loadedCount = 0;
+      const totalFiles = Object.keys(audioFiles).length;
+      
+      for (const [key, url] of Object.entries(audioFiles)) {
+        const audio = new Audio();
+        audio.src = url;
+        audio.preload = 'auto';
+        
+        audio.addEventListener('canplaythrough', () => {
+          loadedCount++;
+          if (loadedCount === totalFiles) {
+            // All audio files loaded
+            setTimeout(() => {
+              document.getElementById('audioLoading').style.display = 'none';
+              document.getElementById('audioStatus').style.display = 'none';
+              isAudioInitialized = true;
+            }, 300);
+          }
+        });
+        
+        audio.addEventListener('error', (e) => {
+          console.log(`Error loading audio ${key}:`, e);
+          loadedCount++;
+        });
+        
+        audioElements[key] = audio;
+      }
+      
+      // Fallback: hide loading after 3 seconds if not all loaded
+      setTimeout(() => {
+        if (!isAudioInitialized) {
+          document.getElementById('audioLoading').style.display = 'none';
+          document.getElementById('audioStatus').style.display = 'none';
+          isAudioInitialized = true;
+        }
+      }, 3000);
+    }
+    
+    // Play sound function with Web Audio API fallback
+    function playSound(key) {
+      if (!isAudioInitialized) {
+        console.log("Audio not initialized yet");
+        return;
+      }
+      
+      const audio = audioElements[key];
+      if (!audio) {
+        console.log(`Audio key not found: ${key}`);
+        return;
+      }
+      
+      // Stop any currently playing sounds of the same type
+      if (!audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      
+      // Play the sound
+      audio.volume = 0.7;
+      audio.play().catch(e => {
+        console.log(`Error playing sound ${key}:`, e);
+        
+        // Fallback: try with Web Audio API
+        if (audioContext) {
+          fetch(audio.src)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+              const source = audioContext.createBufferSource();
+              source.buffer = audioBuffer;
+              source.connect(audioContext.destination);
+              source.start(0);
+            })
+            .catch(err => console.log("Web Audio API fallback failed:", err));
+        }
+      });
+    }
+    
+    // Quiz questions with context-specific effects
+    const questions = [
+      { level: "A2", question: "Was bringt verletzte Menschen ins Krankenhaus? 🏥", options: ["Der Bus", "Das Auto", "Der Krankenwagen"], correctIndex: 2, sound: "ambulance", effect: "🚑" },
+      { level: "A2", question: "Was bedeutet 'bluten'? 🩸", options: ["🍔 Essen", "🩸 Blut verlieren", "😴 Schlafen"], correctIndex: 1, sound: "correct", effect: "🩸" },
+      { level: "A2", question: "Wo kaufst du Brot? 🥖", options: ["Im Supermarkt", "In der Bäckerei", "Im Kaufhaus"], correctIndex: 1, sound: "cash", effect: "🍞" },
+      { level: "A2", question: "Was machst du, wenn du Durst hast? 🥤", options: ["Du isst etwas", "Du trinkst etwas", "Du schläfst"], correctIndex: 1, sound: "correct", effect: "💧" },
+      { level: "A2", question: "Welches Verb passt zu 'Fahrrad'? 🚲", options: ["fahren", "gehen", "laufen"], correctIndex: 0, sound: "correct", effect: "🚲" },
+      { level: "A2", question: "Was ist das Gegenteil von 'kalt'? ❄️", options: ["warm", "heiß", "kühl"], correctIndex: 0, sound: "correct", effect: "🔥" },
+      { level: "A2", question: "Wohin gehst du, um Geld abzuheben? 🏧", options: ["Zur Bank", "Zum Supermarkt", "Zur Post"], correctIndex: 0, sound: "cash", effect: "💰" },
+      { level: "A2", question: "Was bedeutet 'verloren'? 🗺️", options: ["nicht gefunden", "sehr teuer", "sehr schnell"], correctIndex: 0, sound: "correct", effect: "🔍" },
+      { level: "A2", question: "Welches Tier sagt 'Miau'? 😺", options: ["Der Hund", "Die Katze", "Der Vogel"], correctIndex: 1, sound: "cat", effect: "🐱" },
+      { level: "A2", question: "Was trägt man bei Regen? ☔", options: ["Eine Sonnenbrille", "Einen Regenschirm", "Eine Mütze"], correctIndex: 1, sound: "rain", effect: "☔" },
+      { level: "B1", question: "Was bedeutet 'sich beeilen'? ⏱️", options: ["Langsam machen", "Schnell machen", "Pünktlich sein"], correctIndex: 1, sound: "clock", effect: "⏱️" },
+      { level: "B1", question: "Welches Wort ist ein Synonym für 'freundlich'? 😊", options: ["nett", "böse", "traurig"], correctIndex: 0, sound: "correct", effect: "😊" },
+      { level: "B1", question: "Was ist der richtige Artikel für 'Tisch'? 🪑", options: ["der", "die", "das"], correctIndex: 0, sound: "correct", effect: "🪑" },
+      { level: "B1", question: "Was bedeutet 'ausverkauft'? 🛒", options: ["Alles ist teuer", "Nichts ist verfügbar", "Alles ist reduziert"], correctIndex: 1, sound: "correct", effect: "🛒" },
+      { level: "B1", question: "Welche Präposition passt? 'Ich interessiere mich ___ Musik.' 🎵", options: ["für", "mit", "von"], correctIndex: 0, sound: "correct", effect: "🎵" },
+      { level: "B1", question: "Was ist das Gegenteil von 'erlauben'? 🚫", options: ["verbieten", "gestatten", "erlauben"], correctIndex: 0, sound: "correct", effect: "🚫" },
+      { level: "B1", question: "Welches Verb ist trennbar? 🔍", options: ["verstehen", "aufstehen", "gehen"], correctIndex: 1, sound: "correct", effect: "🔍" },
+      { level: "B1", question: "Was bedeutet 'pünktlich'? ⏰", options: ["zu spät", "zur richtigen Zeit", "sehr früh"], correctIndex: 1, sound: "clock", effect: "⏰" },
+      { level: "B1", question: "Welches Wort passt nicht? 🍎", options: ["der Apfel", "die Banane", "das Auto"], correctIndex: 2, sound: "correct", effect: "🍎" },
+      { level: "B1", question: "Was ist die korrekte Form? 'Wenn ich Zeit ___.' ⏳", options: ["habe", "haben", "hat"], correctIndex: 0, sound: "correct", effect: "⏳" },
+      { level: "A2", question: "Wo schläft man normalerweise? 🛏️", options: ["Im Bett", "Auf dem Tisch", "Im Schrank"], correctIndex: 0, sound: "correct", effect: "🛏️" },
+      { level: "A2", question: "Was trinkt man zum Frühstück? ☕", options: ["Kaffee", "Bier", "Wein"], correctIndex: 0, sound: "correct", effect: "☕" },
+      { level: "A2", question: "Welche Farbe hat Schnee? ❄️", options: ["Blau", "Grün", "Weiß"], correctIndex: 2, sound: "correct", effect: "❄️" },
+      { level: "A2", question: "Wohin gehst du, um ein Buch auszuleihen? 📚", options: ["Zur Bibliothek", "Zum Kino", "Zum Restaurant"], correctIndex: 0, sound: "correct", effect: "📚" },
+      { level: "A2", question: "Was ist das? 🥚", options: ["Ein Brot", "Ein Ei", "Eine Milch"], correctIndex: 1, sound: "correct", effect: "🥚" },
+      { level: "B1", question: "Was bedeutet 'sich vorstellen'? 🤔", options: ["Angst haben", "Sich etwas ausdenken", "Sich präsentieren"], correctIndex: 2, sound: "correct", effect: "🤔" },
+      { level: "B1", question: "Welcher Satz ist grammatikalisch richtig? ✍️", options: ["Ich habe gegessen Pizza", "Ich habe Pizza gegessen", "Ich gegessen habe Pizza"], correctIndex: 1, sound: "correct", effect: "✍️" },
+      { level: "B1", question: "Was ist ein 'Reisender'? ✈️", options: ["Jemand, der reist", "Jemand, der kocht", "Jemand, der arbeitet"], correctIndex: 0, sound: "globe", effect: "✈️" },
+      { level: "B1", question: "Welches Wort ist ein Adjektiv? 📝", options: ["schnell", "laufen", "Haus"], correctIndex: 0, sound: "correct", effect: "📝" },
+      { level: "B1", question: "Was bedeutet 'zufrieden'? 😌", options: ["traurig", "glücklich und ruhig", "wütend"], correctIndex: 1, sound: "correct", effect: "😌" },
+      { level: "A2", question: "Wann isst man normalerweise Abendessen? 🌙", options: ["Morgens", "Mittags", "Abends"], correctIndex: 2, sound: "correct", effect: "🌙" },
+      { level: "A2", question: "Was macht man mit einem Schlüssel? 🔑", options: ["Öffnen und Schließen", "Schreiben", "Kochen"], correctIndex: 0, sound: "correct", effect: "🔑" },
+      { level: "A2", question: "Welches Tier bellt? 🐕", options: ["Die Katze", "Der Hund", "Der Vogel"], correctIndex: 1, sound: "correct", effect: "🐕" },
+      { level: "A2", question: "Was trägt man an den Füßen? 👟", options: ["Hut", "Schuhe", "Handschuhe"], correctIndex: 1, sound: "correct", effect: "👟" },
+      { level: "A2", question: "Wo parkt man ein Auto? 🅿️", options: ["In der Küche", "Auf der Straße", "Im Parkhaus"], correctIndex: 2, sound: "correct", effect: "🅿️" },
+      { level: "B1", question: "Was ist die korrekte Pluralform von 'das Kind'? 👶", options: ["die Kinds", "die Kinder", "die Kindes"], correctIndex: 1, sound: "correct", effect: "👶" },
+      { level: "B1", question: "Welche Zeitform wird im Satz verwendet? 'Ich werde morgen kommen.' 📅", options: ["Präsens", "Perfekt", "Futur I"], correctIndex: 2, sound: "correct", effect: "📅" },
+      { level: "B1", question: "Was bedeutet 'aussehen wie'? 👀", options: ["riechen wie", "schmecken wie", "gleich aussehen wie"], correctIndex: 2, sound: "correct", effect: "👀" },
+      { level: "B1", question: "Welches Verb passt nicht? 🏃", options: ["laufen", "rennen", "schlafen"], correctIndex: 2, sound: "correct", effect: "🏃" },
+      { level: "B1", question: "Was ist ein 'Handy' auf Deutsch? 📱", options: ["Ein Computer", "Ein Mobiltelefon", "Ein Fernseher"], correctIndex: 1, sound: "correct", effect: "📱" },
+      { level: "A2", question: "Was isst man zum Frühstück? 🥐", options: ["Pizza", "Brötchen", "Suppe"], correctIndex: 1, sound: "correct", effect: "🥐" },
+      { level: "A2", question: "Wo kauft man Medikamente? 💊", options: ["In der Apotheke", "Im Supermarkt", "Im Kaufhaus"], correctIndex: 0, sound: "correct", effect: "💊" },
+      { level: "A2", question: "Was bedeutet 'kalt'? ❄️", options: ["heiß", "nicht warm", "sehr warm"], correctIndex: 1, sound: "correct", effect: "❄️" },
+      { level: "A2", question: "Wohin gehst du, um einen Film zu sehen? 🎬", options: ["Ins Kino", "Ins Museum", "Ins Restaurant"], correctIndex: 0, sound: "correct", effect: "🎬" },
+      { level: "A2", question: "Was ist das? 🥛", options: ["Wasser", "Milch", "Saft"], correctIndex: 1, sound: "correct", effect: "🥛" },
+      { level: "B1", question: "Was bedeutet 'sich erinnern an'? 🧠", options: ["vergessen", "nicht wissen", "etwas nicht vergessen"], correctIndex: 2, sound: "correct", effect: "🧠" },
+      { level: "B1", question: "Welcher Satz ist im Passiv? 🔄", options: ["Der Hund beißt den Mann.", "Der Mann wird vom Hund gebissen.", "Der Mann beißt den Hund."], correctIndex: 1, sound: "correct", effect: "🔄" },
+      { level: "B1", question: "Was ist ein 'Gehalt'? 💰", options: ["Das Geld, das man für Arbeit bekommt", "Ein Geschenk", "Eine Strafe"], correctIndex: 0, sound: "cash", effect: "💰" },
+      { level: "B1", question: "Welches Wort ist ein Substantiv? 📚", options: ["lesen", "schnell", "Buch"], correctIndex: 2, sound: "correct", effect: "📚" },
+      { level: "B1", question: "Was bedeutet 'stolz'? 😎", options: ["traurig", "glücklich über eine Leistung", "ängstlich"], correctIndex: 1, sound: "correct", effect: "😎" }
+    ];
+
+    // DOM Elements
+    const registrationScreen = document.getElementById('registrationScreen');
+    const quizScreen = document.getElementById('quizScreen');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const studentNameInput = document.getElementById('studentName');
+    const startQuizBtn = document.getElementById('startQuizBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const questionContainer = document.getElementById('questionContainer');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const resultContainer = document.getElementById('resultContainer');
+    const progressBar = document.getElementById('progressBar');
+    const currentQuestionElement = document.getElementById('currentQuestion');
+    const totalQuestionsElement = document.getElementById('totalQuestions');
+    const levelBadge = document.getElementById('levelBadge');
+    const resultStudentName = document.getElementById('resultStudentName');
+    const finalScoreElement = document.getElementById('finalScore');
+    const badgeNameElement = document.getElementById('badgeName');
+    const encouragementTextElement = document.getElementById('encouragementText');
+    const visualEffect = document.getElementById('visualEffect');
+    
+    // Quiz state
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let studentName = "Teilnehmer";
+    
+    // Initialize
+    totalQuestionsElement.textContent = questions.length;
+    
+    // Start quiz button event - THIS IS THE KEY TO FIXING THE START ISSUE
+    startQuizBtn.addEventListener('click', () => {
+      // Initialize audio on first user interaction (required by browsers)
+      initAudio();
+      
+      // Get student name
+      studentName = studentNameInput.value.trim() || "Teilnehmer";
+      
+      // Switch screens with smooth transition
+      registrationScreen.classList.remove('active');
+      
+      // Small delay for smooth transition
+      setTimeout(() => {
+        quizScreen.classList.add('active');
+        loadQuestion(currentQuestionIndex);
+      }, 300);
+    });
+    
+    // Next question button event
+    nextBtn.addEventListener('click', () => {
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < questions.length) {
+        // Smooth transition to next question
+        quizScreen.classList.remove('active');
+        setTimeout(() => {
+          quizScreen.classList.add('active');
+          loadQuestion(currentQuestionIndex);
+        }, 200);
+      } else {
+        showResultsScreen();
+      }
+    });
+    
+    // Restart quiz button event
+    restartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      score = 0;
+      selectedAnswer = null;
+      
+      // Reset UI
+      resultContainer.textContent = '';
+      resultContainer.className = 'result-container';
+      nextBtn.style.display = 'none';
+      
+      // Go back to registration screen
+      resultsScreen.classList.remove('active');
+      setTimeout(() => {
+        registrationScreen.classList.add('active');
+        studentNameInput.value = studentName;
+        studentNameInput.focus();
+      }, 300);
+    });
+    
+    // Load question function
+    function loadQuestion(index) {
+      // Reset state
+      selectedAnswer = null;
+      resultContainer.textContent = '';
+      resultContainer.className = 'result-container';
+      nextBtn.style.display = 'none';
+      
+      // Update progress
+      currentQuestionElement.textContent = index + 1;
+      progressBar.style.width = `${((index) / questions.length) * 100}%`;
+      
+      // Get current question
+      const currentQuestion = questions[index];
+      
+      // Update UI with animation
+      questionContainer.textContent = '';
+      levelBadge.textContent = '';
+      
+      setTimeout(() => {
+        levelBadge.textContent = `Stufe: ${currentQuestion.level}`;
+        questionContainer.textContent = currentQuestion.question;
+        
+        // Clear and add options
+        optionsContainer.innerHTML = '';
+        currentQuestion.options.forEach((option, i) => {
+          const optionBtn = document.createElement('button');
+          optionBtn.className = 'option-btn';
+          optionBtn.innerHTML = `<span class="option-number">${i + 1}</span>${option}`;
+          optionBtn.addEventListener('click', () => selectAnswer(i, currentQuestion.correctIndex, currentQuestion));
+          optionsContainer.appendChild(optionBtn);
+        });
+      }, 100);
+    }
+    
+    // Select answer function
+    function selectAnswer(selectedIndex, correctIndex, question) {
+      if (selectedAnswer !== null) return;
+      
+      selectedAnswer = selectedIndex;
+      
+      // Get all option buttons
+      const optionButtons = document.querySelectorAll('.option-btn');
+      
+      // Disable all buttons
+      optionButtons.forEach(button => {
+        button.disabled = true;
+      });
+      
+      // Check answer
+      if (selectedIndex === correctIndex) {
+        // Correct answer
+        optionButtons[selectedIndex].classList.add('correct');
+        resultContainer.textContent = '✅ Richtig!';
+        resultContainer.classList.add('correct', 'show');
+        score++;
+        
+        // Play sound and show visual effect
+        if (isAudioInitialized) {
+          playSound(question.sound || 'correct');
+          showVisualEffect(question.effect || '✅', 'correct');
+        }
+      } else {
+        // Wrong answer
+        optionButtons[selectedIndex].classList.add('wrong');
+        optionButtons[correctIndex].classList.add('correct');
+        resultContainer.textContent = `❌ Falsch! Richtige Antwort: ${questions[currentQuestionIndex].options[correctIndex]}`;
+        resultContainer.classList.add('wrong', 'show');
+        
+        // Play sound and show visual effect
+        if (isAudioInitialized) {
+          playSound('wrong');
+          showVisualEffect(question.effect || '❌', 'wrong');
+        }
+      }
+      
+      // Show next button with delay
+      setTimeout(() => {
+        nextBtn.style.display = 'block';
+        nextBtn.style.opacity = '0';
+        nextBtn.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+          nextBtn.style.opacity = '1';
+          nextBtn.style.transform = 'translateY(0)';
+        }, 50);
+      }, 500);
+    }
+    
+    // Show visual effect
+    function showVisualEffect(content, type) {
+      visualEffect.textContent = content;
+      visualEffect.className = `visual-effect ${type}`;
+      visualEffect.style.display = 'block';
+      visualEffect.style.opacity = '0';
+      visualEffect.style.transform = 'translate(-50%, -50%) scale(0.8)';
+      
+      // Trigger animation
+      setTimeout(() => {
+        visualEffect.style.opacity = '1';
+        visualEffect.style.transform = 'translate(-50%, -50%) scale(1.8)';
+      }, 10);
+      
+      // Reset after animation
+      setTimeout(() => {
+        visualEffect.style.display = 'none';
+      }, 1000);
+    }
+    
+    // Show results screen
+    function showResultsScreen() {
+      // Update results screen
+      resultStudentName.textContent = studentName;
+      finalScoreElement.textContent = `${score}/${questions.length}`;
+      
+      // Determine badge
+      let badgeName = '';
+      
+      if (score >= 45) {
+        badgeName = 'PLATIN-MEISTER';
+        createConfetti();
+      } else if (score >= 35) {
+        badgeName = 'GOLD-MEISTER';
+        createConfetti();
+      } else if (score >= 25) {
+        badgeName = 'SILBER-MEISTER';
+      } else if (score >= 15) {
+        badgeName = 'BRONZE-MEISTER';
+      } else {
+        badgeName = 'DEUTSCH-SCHÜLER';
+      }
+      
+      badgeNameElement.textContent = badgeName;
+      
+      // Set encouragement text
+      encouragementTextElement.textContent = getEncouragementMessage(score);
+      
+      // Switch screens with smooth transition
+      quizScreen.classList.remove('active');
+      setTimeout(() => {
+        resultsScreen.classList.add('active');
+      }, 300);
+    }
+    
+    // Create confetti animation
+    function createConfetti() {
+      const colors = ['#DC0000', '#FFD700', '#ffffff', '#cc0000', '#e6b800', '#333333'];
+      
+      // Create 100 confetti pieces
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `${Math.random() * 20}%`;
+        confetti.style.width = `${Math.random() * 8 + 4}px`;
+        confetti.style.height = confetti.style.width;
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confetti.style.opacity = Math.random();
+        confetti.style.zIndex = '1000';
+        
+        document.body.appendChild(confetti);
+        
+        // Remove confetti after animation
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
+    
+    // Get encouragement message
+    function getEncouragementMessage(score) {
+      if (score >= 45) return "Absolut beeindruckend! Du beherrschst Deutsch auf einem fortgeschrittenen Niveau. Weiter so!";
+      if (score >= 35) return "Hervorragend! Deine Deutschkenntnisse sind sehr gut. Du bist auf einem guten Weg zum Meister!";
+      if (score >= 25) return "Gut gemacht! Du hast solide Deutschkenntnisse. Mit etwas mehr Übung wirst du noch besser!";
+      if (score >= 15) return "Nicht schlecht! Du hast grundlegende Deutschkenntnisse. Übe weiter, um Fortschritte zu machen!";
+      return "Deine Reise mit der deutschen Sprache hat gerade erst begonnen. Übe regelmäßig und du wirst schnell Fortschritte machen!";
+    }
+    
+    // Initialize with registration screen
+    registrationScreen.classList.add('active');
+    
+    // Add enter key support for name input
+    studentNameInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && studentNameInput.value.trim() !== '') {
+        startQuizBtn.click();
+      }
+    });
+    
+    // Focus name input on load
+    window.addEventListener('load', () => {
+      // Auto-focus name field after short delay
+      setTimeout(() => {
+        studentNameInput.focus();
+      }, 500);
+      
+      // Add subtle animation to logo letters
+      const logoLetters = document.querySelectorAll('.logo-letter');
+      logoLetters.forEach((letter, index) => {
+        setTimeout(() => {
+          letter.style.animation = 'float 3s ease-in-out infinite';
+          letter.style.animationDelay = `${index * 0.2}s`;
+        }, 300);
+      });
+      
+      // Pre-initialize audio context on first touch/click anywhere (for mobile)
+      document.body.addEventListener('touchstart', initAudio, { once: true });
+      document.body.addEventListener('click', initAudio, { once: true });
+    });
+    
+    // Prevent default form submission
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && e.target.id !== 'studentName') {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
